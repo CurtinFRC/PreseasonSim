@@ -3,12 +3,14 @@
 #include <iostream>
 
 void Robot::RobotInit() {
-  motor = std::make_shared<frc::Spark>(0);
+  motor_0 = std::make_shared<frc::Spark>(0);
+  motor_1 = std::make_shared<frc::Spark>(1);
   xbox = std::make_shared<frc::XboxController>(0);
 }
 
 void Robot::RobotPeriodic() {
-  motor->Set(xbox->GetX(frc::XboxController::JoystickHand::kLeftHand));
+  motor_0->Set(xbox->GetX(frc::XboxController::JoystickHand::kLeftHand));
+  motor_1->Set(xbox->GetY(frc::XboxController::JoystickHand::kLeftHand));
 }
 
 void Robot::AutonomousInit() {}

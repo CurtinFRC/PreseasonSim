@@ -26,6 +26,6 @@ class Robot : public frc::TimedRobot {
   void TestPeriodic() override;
 
 private:
-  std::shared_ptr<frc::Spark> motor;
+  std::shared_ptr<frc::Spark> motor_0, motor_1;
   std::shared_ptr<frc::XboxController> xbox;
 };
