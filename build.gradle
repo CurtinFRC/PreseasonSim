@@ -1,0 +1,80 @@
+plugins {
+    id "edu.wpi.first.GradleRIO" version "2019.0.0-beta0-pre1" apply false
+    id "edu.wpi.first.GradleVsCode" version "0.4.1" apply false
+}
+allprojects {
+    apply plugin: 'cpp'
+    apply plugin: 'google-test-test-suite'
+    apply plugin: 'edu.wpi.first.GradleRIO'
+    apply plugin: 'edu.wpi.first.GradleVsCode'
+
+    repositories {
+        maven {
+            name = "WPIRelease"
+            url = "http://first.wpi.edu/FRC/roborio/maven/release"
+        }
+    }
+}
+
+deploy {
+    targets {
+        roboRIO("roborio") {
+            team = getTeamNumber()
+        }
+    }
+    artifacts {
+        frcNativeArtifact('frcCpp') {
+            targets << "roborio"
+            component = 'frcUserProgram'
+            debug = getDebugOrDefault(false)
+        }
+    }
+}
+
+model {
+    components {
+        frcUserProgram(NativeExecutableSpec) {
+            targetPlatform 'desktop'
+            targetPlatform 'roborio'
+
+            sources.cpp {
+                source {
+                    srcDir 'src/main/cpp'
+                }
+                exportedHeaders {
+                    srcDir 'src/main/include'
+                }
+            }
+
+            binaries.all {
+                if (targetPlatform == platforms.desktop) {
+                    cppCompiler.define 'SIMULATION'
+                    lib project: ':simulation', library: 'preseasonSimulation', linkage: 'static'
+                }
+            }
+
+            useLibrary(it, "wpilib")
+        }
+    }
+    // testSuites {
+    //     frcUserProgramTest(GoogleTestTestSuiteSpec) {
+    //         testing $.components.frcUserProgram
+
+    //         sources.cpp {
+    //             source {
+    //                 srcDir 'src/test/cpp'
+    //                 include '**/*.cpp'
+    //             }
+    //         }
+
+    //         useLibrary(it, "wpilib", "googletest")
+    //     }
+    // }
+}
+
+task sim();
+sim.dependsOn 'simulateFrcUserProgramDesktopDebugExecutable'
+
+wrapper {
+    gradleVersion = '4.9'
+}

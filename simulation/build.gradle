@@ -1,0 +1,18 @@
+model {
+    components {
+        preseasonSimulation(NativeLibrarySpec) {
+            targetPlatform 'desktop'
+
+            sources.cpp {
+                source {
+                    srcDir 'src/main/cpp'
+                }
+                exportedHeaders {
+                    srcDir 'src/main/include'
+                }
+            }
+
+            useLibrary(it, "wpilib")
+        }
+    }
+}
