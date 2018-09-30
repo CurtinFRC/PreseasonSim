@@ -9,6 +9,7 @@
 #include <array>
 
 static std::vector<sim_motor_window> _motors;
+static sim_xbox_window _xbox;
 
 void sim_main::run() {
   std::cout << "Simulation Started" << std::endl;
@@ -18,6 +19,6 @@ void sim_main::run() {
   for (int i = 0; i < 10; i++)
     _motors.emplace_back(i);
 
-  (new sim_xbox_window())->start();
+  xbox.start();
   std::cout << "Simulation Initialized!" << std::endl;
 }
