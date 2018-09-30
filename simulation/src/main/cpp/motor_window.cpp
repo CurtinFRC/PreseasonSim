@@ -3,6 +3,18 @@
 #include "motor_window.h"
 #include "mockdata/PWMData.h"
 
+static void pwm_init_callback(const char* name, void* param, const struct HAL_Value* value) {
+  static_cast<sim_motor_window *>(param)->start();
+}
+
+void sim_motor_window::on_open() {
+  _cbid = HALSIM_RegisterPWMInitializedCallback(pwm, &pwm_init_callback, (void *)this, false);
+}
+
+void sim_motor_window::on_close() {
+  HALSIM_CancelPWMInitializedCallback(pwm, _cbid);
+}
+
 void sim_motor_window::render(cv::Mat &img) {
   double pwm_speed = HALSIM_GetPWMSpeed(pwm);
   double delta_rot = pwm_speed * 4 * (static_cast<double>(framerate()) / 1000);

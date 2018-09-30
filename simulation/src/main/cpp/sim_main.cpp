@@ -6,21 +6,17 @@
 #include "hal/HAL.h"
 
 #include <iostream>
+#include <array>
 
-static void pwm_init_callback(const char* name, void* param, const struct HAL_Value* value) {
-  int pwm = (int)param;
-  // You should _never_ allocate a new object without deleting / freeing it at some point, but 
-  // we purposefully want these to outlive the scope of run() since they own threads, and we want
-  // them to run forever until the simulation is ended, at which point the OS picks up the mess.
-  (new sim_motor_window(pwm))->start();
-}
+static std::vector<sim_motor_window> _motors;
 
 void sim_main::run() {
   std::cout << "Simulation Started" << std::endl;
   HAL_Initialize(500, 0);
 
+  _motors.reserve(10);
   for (int i = 0; i < 10; i++)
-    HALSIM_RegisterPWMInitializedCallback(i, &pwm_init_callback, (void *)i, false);
+    _motors.emplace_back(i);
 
   (new sim_xbox_window())->start();
   std::cout << "Simulation Initialized!" << std::endl;
