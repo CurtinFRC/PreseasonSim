@@ -19,6 +19,6 @@ void sim_main::run() {
   for (int i = 0; i < 10; i++)
     _motors.emplace_back(i);
 
-  xbox.start();
+  _xbox.start();
   std::cout << "Simulation Initialized!" << std::endl;
 }

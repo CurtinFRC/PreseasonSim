@@ -7,13 +7,6 @@ allprojects {
     apply plugin: 'google-test-test-suite'
     apply plugin: 'edu.wpi.first.GradleRIO'
     apply plugin: 'edu.wpi.first.GradleVsCode'
-
-    repositories {
-        maven {
-            name = "WPIRelease"
-            url = "http://first.wpi.edu/FRC/roborio/maven/release"
-        }
-    }
 }
 
 deploy {
@@ -74,6 +67,10 @@ model {
 
 task sim();
 sim.dependsOn 'simulateFrcUserProgramDesktopDebugExecutable'
+
+// wpi.maven {
+//     useMirror("AU")
+// }
 
 wrapper {
     gradleVersion = '4.9'
