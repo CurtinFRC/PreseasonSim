@@ -1,5 +1,5 @@
 plugins {
-    id "edu.wpi.first.GradleRIO" version "2019.0.0-beta0-pre1" apply false
+    id "edu.wpi.first.GradleRIO" version "2019.0.0-beta0-pre3" apply false
     id "edu.wpi.first.GradleVsCode" version "0.4.1" apply false
 }
 allprojects {
@@ -25,6 +25,12 @@ deploy {
 }
 
 model {
+    toolChains {
+        clang(Clang)
+        gcc(Gcc)
+        msvc(VisualCpp)
+        roborio(edu.wpi.first.gradlerio.wpi.toolchain.WPIRoboRioGcc)
+    }
     components {
         frcUserProgram(NativeExecutableSpec) {
             targetPlatform 'desktop'
@@ -68,9 +74,9 @@ model {
 task sim();
 sim.dependsOn 'simulateFrcUserProgramDesktopDebugExecutable'
 
-// wpi.maven {
-//     useMirror("AU")
-// }
+wpi.maven {
+    useMirror("AU")
+}
 
 wrapper {
     gradleVersion = '4.9'
