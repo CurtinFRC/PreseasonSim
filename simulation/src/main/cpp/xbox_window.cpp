@@ -27,7 +27,6 @@ static void clickCallback(int event, int x, int y, int flags, void *data) {
 void sim_xbox_window::on_open() {
   cv::setMouseCallback(window_name().c_str(), clickCallback, (void *)this);
 }
-
 void sim_xbox_window::render(cv::Mat &img) {
   cv::Scalar outer_colour{ 255, 255, 255 };
 

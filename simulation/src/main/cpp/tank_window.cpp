@@ -29,8 +29,8 @@ void tank_window::drawRobot(cv::Mat &img, double lspeed, double rspeed) {
   drawBox(img, cv::Scalar{255, 255, 255}, 2, -1, -1, 2, 2);
   drawBox(img, frontColour, 2, 1, -1, 0.05, 2);   // Front
 
-  drawBox(img, leftColour * std::abs(lspeed), 3, -1, -1, 2, 0.1); // Left fill
-  drawBox(img, rightColour * std::abs(rspeed), 3, -1, 1-0.2, 2, 0.1); // Right fill
+  drawBox(img, leftColour * std::abs(lspeed), 4, -1, -1, 2, 0.1); // Left fill
+  drawBox(img, rightColour * std::abs(rspeed), 4, -1, 1-0.2, 2, 0.1); // Right fill
 
   drawBox(img, leftColour, 1, -1, -1, 2, 0.2);   // Left Outline
   drawBox(img, rightColour, 1, -1, 1-0.2, 2, 0.2);   // Right Outline

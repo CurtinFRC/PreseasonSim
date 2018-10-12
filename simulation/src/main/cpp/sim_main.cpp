@@ -18,6 +18,16 @@ static std::vector<sim_motor_window> _motors;
 static std::vector<tank_window> _tanks;
 static sim_xbox_window _xbox;
 
+void all_windows(std::function<void(window &)> cb) {
+  cb(_xbox);
+  for (auto it = _motors.begin(); it != _motors.end(); ++it) {
+    cb(*it);
+  }
+  for (auto it = _tanks.begin(); it != _tanks.end(); ++it) {
+    cb(*it);
+  }
+}
+
 void sim_main::run() {
   std::cout << "[SIM] Simulation Starting..." << std::endl;
   HAL_Initialize(500, 0);
@@ -38,13 +48,8 @@ void sim_main::run() {
   std::cout << "[SIM] Starting UI Thread..." << std::endl;
   std::thread thread([]() {
     while(true) {
-      _xbox.update();
-      for (auto it = _motors.begin(); it != _motors.end(); ++it) {
-        it->update();
-      }
-      for (auto it = _tanks.begin(); it != _tanks.end(); ++it) {
-        it->update();
-      }
+      all_windows([](window &win) { win.update(); });
+
       cv::waitKey(static_cast<int>(1000.0 / 45.0));
     }
   });

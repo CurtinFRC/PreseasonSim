@@ -6,6 +6,7 @@
 class sim_xbox_window : public window {
 public:
   sim_xbox_window() : window("Xbox Controller", 400, 250) {}
+
   virtual void on_open() override;
   virtual void render(cv::Mat &img) override;
 
