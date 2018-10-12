@@ -1,6 +1,6 @@
 #pragma once
 
 class sim_main {
-public:
+ public:
   void run();
 };

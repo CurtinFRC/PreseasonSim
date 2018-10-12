@@ -1,19 +1,18 @@
 #pragma once
 
+#include <chrono>
+#include <iostream>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <string>
-#include <chrono>
-#include <iostream>
 
 class window {
-public:
-  window(std::string name, int width, int height) : 
-    _window_name(name), _width(width), _height(height), _image(height, width, CV_8UC3) {}
+ public:
+  window(std::string name, int width, int height)
+      : _window_name(name), _width(width), _height(height), _image(height, width, CV_8UC3) {}
 
   ~window() {
-    if (_running)
-      stop();
+    if (_running) stop();
     std::cout << "[SIM] WARN! Destructed: " << _window_name << std::endl;
   }
 
@@ -35,29 +34,19 @@ public:
     }
   }
 
-  bool is_running() const {
-    return _running;
-  }
+  bool is_running() const { return _running; }
 
-  std::string window_name() const {
-    return _window_name;
-  }
+  std::string window_name() const { return _window_name; }
 
-  int width() const {
-    return _width;
-  }
+  int width() const { return _width; }
 
-  int height() const {
-    return _height;
-  }
+  int height() const { return _height; }
 
   virtual void on_open() {}
-  virtual void render(cv::Mat &img) {};
+  virtual void render(cv::Mat &img){};
   virtual void on_close() {}
 
-  double dt() const {
-    return _elapsed;
-  }
+  double dt() const { return _elapsed; }
 
   void update() {
     if (_pending) {
@@ -88,12 +77,12 @@ public:
     }
   }
 
-private:
-  std::string _window_name;
-  int _width, _height;
-  bool _running = false;
-  bool _pending = false;
-  cv::Mat _image;
-  double _elapsed = 0;
+ private:
+  std::string                    _window_name;
+  int                            _width, _height;
+  bool                           _running = false;
+  bool                           _pending = false;
+  cv::Mat                        _image;
+  double                         _elapsed = 0;
   std::chrono::time_point<clock> _last;
 };

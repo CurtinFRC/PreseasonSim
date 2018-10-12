@@ -21,6 +21,12 @@ allprojects {
                 }
             }
         }
+        binaries {
+            all {
+                if (buildType.name == 'debug' && org.gradle.internal.os.OperatingSystem.current().isLinux())
+                    linker.args << '-ldl' << '-rdynamic'
+            }
+        }
     }
 }
 
@@ -84,7 +90,8 @@ model {
             }
 
             binaries.all {
-                cppCompiler.define 'RDT_ARCADE_TEST'
+                // CHANGE ME:
+                cppCompiler.define 'SESSION_2_ACT_2'
 
                 // Some of our tests will be using debugging information.
                 if (buildType.name == 'release')

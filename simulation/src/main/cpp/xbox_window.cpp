@@ -27,13 +27,14 @@ static void clickCallback(int event, int x, int y, int flags, void *data) {
 void sim_xbox_window::on_open() {
   cv::setMouseCallback(window_name().c_str(), clickCallback, (void *)this);
 }
-void sim_xbox_window::render(cv::Mat &img) {
-  cv::Scalar outer_colour{ 255, 255, 255 };
 
-  double ir = 5;
-  cv::Point il_off{ static_cast<int>(r * axes.axes[0]), static_cast<int>(r * axes.axes[1]) };
-  cv::Point ir_off{ static_cast<int>(r * axes.axes[4]), static_cast<int>(r * axes.axes[5]) };
-  cv::Scalar inner_colour{ 50, 50, 255 }, line_colour{ 100, 100, 100 };
+void sim_xbox_window::render(cv::Mat &img) {
+  cv::Scalar outer_colour{255, 255, 255};
+
+  double     ir = 5;
+  cv::Point  il_off{static_cast<int>(r * axes.axes[0]), static_cast<int>(r * axes.axes[1])};
+  cv::Point  ir_off{static_cast<int>(r * axes.axes[4]), static_cast<int>(r * axes.axes[5])};
+  cv::Scalar inner_colour{50, 50, 255}, line_colour{100, 100, 100};
 
   cv::line(img, cl - cv::Point{(int)r, 0}, cl + cv::Point{(int)r, 0}, line_colour);
   cv::line(img, cl - cv::Point{0, (int)r}, cl + cv::Point{0, (int)r}, line_colour);
@@ -45,16 +46,15 @@ void sim_xbox_window::render(cv::Mat &img) {
   cv::circle(img, cr, r, outer_colour, 3);
   cv::circle(img, cr + ir_off, ir, inner_colour, CV_FILLED);
 
-  cv::putText(img, "Xbox Controller", cv::Point{ 10, 30 }, CV_FONT_HERSHEY_SIMPLEX, 1.0, cv::Scalar{ 127, 127, 127 }, 1.5);
+  cv::putText(img, "Xbox Controller", cv::Point{10, 30}, CV_FONT_HERSHEY_SIMPLEX, 1.0,
+              cv::Scalar{127, 127, 127}, 1.5);
   HALSIM_SetJoystickAxes(0, &axes);
 }
 
 bool sim_xbox_window::inside(cv::Point center, double radius, int x, int y, double *off_x, double *off_y) {
   cv::Point offset = cv::Point{x, y} - center;
-  if (off_x != nullptr)
-    *off_x = static_cast<double>(offset.x) / radius;
-  if (off_y != nullptr)
-    *off_y = static_cast<double>(offset.y) / radius;
+  if (off_x != nullptr) *off_x = static_cast<double>(offset.x) / radius;
+  if (off_y != nullptr) *off_y = static_cast<double>(offset.y) / radius;
 
   return std::sqrt(offset.x * offset.x + offset.y * offset.y) <= radius;
 }

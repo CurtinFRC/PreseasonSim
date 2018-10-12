@@ -4,7 +4,7 @@
 
 #include "Robot.h"
 
-#ifdef RDT_ARCADE_TEST
+#ifdef SESSION_2_ACT_2
 class RDT : public ::testing::Test {
  protected:
   void SetUp() override {
