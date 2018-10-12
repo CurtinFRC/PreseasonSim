@@ -23,4 +23,6 @@ class Robot : public frc::TimedRobot {
   void RobotInit() override;
   void RobotPeriodic() override;
  private:
+  frc::Spark left{0}, right{1};
+  frc::XboxController xbox{0};
 };
