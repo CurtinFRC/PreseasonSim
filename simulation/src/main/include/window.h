@@ -23,8 +23,7 @@ public:
     if (!_running) {
       std::cout << "[SIM] Starting " << _window_name << std::endl;
       _running = true;
-      cv::namedWindow(_window_name.c_str());
-      on_open();
+      _pending = true;
     }
   }
 
@@ -32,8 +31,7 @@ public:
     if (_running) {
       std::cout << "[SIM] Stopping " << _window_name << std::endl;
       _running = false;
-      on_close();
-      cv::destroyWindow(_window_name.c_str());
+      _pending = true;
     }
   }
 
@@ -62,6 +60,19 @@ public:
   }
 
   void update() {
+    if (_pending) {
+      if (_running) {
+        // Start window
+        cv::namedWindow(_window_name.c_str());
+        on_open();
+      } else {
+        // Stop window
+        on_close();
+        cv::destroyWindow(_window_name.c_str());
+      }
+      _pending = false;
+    }
+
     if (_running) {
       cv::namedWindow(_window_name.c_str());
       auto now = clock::now();
@@ -81,6 +92,7 @@ private:
   std::string _window_name;
   int _width, _height;
   bool _running = false;
+  bool _pending = false;
   cv::Mat _image;
   double _elapsed = 0;
   std::chrono::time_point<clock> _last;
