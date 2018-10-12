@@ -48,8 +48,7 @@ double tank_window::linear(double left, double right) {
 }
 
 double tank_window::angular(double left, double right) {
-  return -(right - left);Controller::JoystickHand::kLeftHand));
-    right.Set(-xbox.GetY(frc::XboxController::
+  return -(right - left);
 }
 
 cv::Point tank_window::toWorld(double x, double y) {
