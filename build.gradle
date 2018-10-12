@@ -16,6 +16,9 @@ allprojects {
                     it.maven = null
                     it.file = project.file("/usr/local/lib")
                 }
+                if (name == 'googletest_native') {
+                    it.staticMatchers += "**/*libgoogletest.a".toString()
+                }
             }
         }
     }
@@ -49,6 +52,7 @@ model {
             targetPlatform 'roborio'
 
             sources.cpp {
+
                 source {
                     srcDir 'src/main/cpp'
                 }
@@ -68,20 +72,30 @@ model {
             useLibrary(it, "wpilib")
         }
     }
-    // testSuites {
-    //     frcUserProgramTest(GoogleTestTestSuiteSpec) {
-    //         testing $.components.frcUserProgram
+    testSuites {
+        frcUserProgramTest(GoogleTestTestSuiteSpec) {
+            testing $.components.frcUserProgram
 
-    //         sources.cpp {
-    //             source {
-    //                 srcDir 'src/test/cpp'
-    //                 include '**/*.cpp'
-    //             }
-    //         }
+            sources.cpp {
+                source {
+                    srcDir 'src/test/cpp'
+                    include '**/*.cpp'
+                }
+            }
 
-    //         useLibrary(it, "wpilib", "googletest")
-    //     }
-    // }
+            binaries.all {
+                cppCompiler.define 'RDT_ARCADE_TEST'
+
+                // Some of our tests will be using debugging information.
+                if (buildType.name == 'release')
+                    buildable = false;
+
+                lib project: ':common', library: 'preseasonCommon', linkage: 'static'
+            }
+
+            useLibrary(it, "wpilib", "googletest", "googletest_binaries")
+        }
+    }
 }
 
 task sim();

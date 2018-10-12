@@ -12,6 +12,11 @@ model {
                     srcDir 'src/main/include'
                 }
             }
+
+            // No need to build shared libraries that we never use.
+            binaries.withType(SharedLibraryBinarySpec) {
+                buildable = false
+            }
         }
     }
 }

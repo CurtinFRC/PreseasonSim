@@ -9,9 +9,10 @@
 
 #include <string>
 
-#include <TimedRobot.h>
-#include <Spark.h>
-#include <XboxController.h>
+#include <frc/TimedRobot.h>
+#include <frc/Spark.h>
+#include <frc/XboxController.h>
+#include <frc/drive/DifferentialDrive.h>
 
 #include <usage.h>
 
@@ -21,5 +22,8 @@ class Robot : public frc::TimedRobot {
  public:
   void RobotInit() override;
   void RobotPeriodic() override;
-private:
+ private:
+  frc::XboxController xbox{0};
+  frc::Spark left{0}, right{1};
+  frc::DifferentialDrive diff{left, right};
 };
