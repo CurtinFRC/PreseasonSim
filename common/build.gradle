@@ -1,7 +1,8 @@
 model {
     components {
-        preseasonSimulation(NativeLibrarySpec) {
+        preseasonCommon(NativeLibrarySpec) {
             targetPlatform 'desktop'
+            targetPlatform 'roborio'
 
             sources.cpp {
                 source {
@@ -11,12 +12,6 @@ model {
                     srcDir 'src/main/include'
                 }
             }
-
-            binaries.all {
-                lib project: ':common', library: 'preseasonCommon', linkage: 'static'
-            }
-
-            useLibrary(it, "hal", "opencv")
         }
     }
 }

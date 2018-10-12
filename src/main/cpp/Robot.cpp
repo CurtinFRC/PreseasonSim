@@ -3,6 +3,9 @@
 #include <iostream>
 
 void Robot::RobotInit() {
+    usage::drivetrain(0, 1);
+    frc::Spark *spark = new frc::Spark(0);
+    spark->Set(1.0);
 }
 
 void Robot::RobotPeriodic() {

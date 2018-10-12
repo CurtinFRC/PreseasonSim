@@ -7,6 +7,18 @@ allprojects {
     apply plugin: 'google-test-test-suite'
     apply plugin: 'edu.wpi.first.GradleRIO'
     apply plugin: 'edu.wpi.first.GradleVsCode'
+
+    model {
+        libraries {
+            all {
+                if (name == 'opencv_native' && org.gradle.internal.os.OperatingSystem.current().isLinux()) {
+                    // Use system opencv
+                    it.maven = null
+                    it.file = project.file("/usr/local/lib")
+                }
+            }
+        }
+    }
 }
 
 deploy {
@@ -50,6 +62,7 @@ model {
                     cppCompiler.define 'SIMULATION'
                     lib project: ':simulation', library: 'preseasonSimulation', linkage: 'static'
                 }
+                lib project: ':common', library: 'preseasonCommon', linkage: 'static'
             }
 
             useLibrary(it, "wpilib")

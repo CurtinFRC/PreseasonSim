@@ -13,6 +13,8 @@
 #include <Spark.h>
 #include <XboxController.h>
 
+#include <usage.h>
+
 #include <memory>
 
 class Robot : public frc::TimedRobot {
