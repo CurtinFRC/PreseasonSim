@@ -91,7 +91,7 @@ model {
 
             binaries.all {
                 // CHANGE ME:
-                cppCompiler.define 'SESSION_2_ACT_2'
+                cppCompiler.define 'SESSION_2_ACT_3'
 
                 // Some of our tests will be using debugging information.
                 if (buildType.name == 'release')
