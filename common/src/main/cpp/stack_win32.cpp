@@ -8,7 +8,7 @@
 #include <vector>
 #include <string>
 
-std::vector<std::string> backtrace_get(int skip) {
+std::vector<std::string> stack::backtrace_get(int skip) {
      unsigned int   i;
      void         * stack[ 100 ];
      unsigned short frames;
