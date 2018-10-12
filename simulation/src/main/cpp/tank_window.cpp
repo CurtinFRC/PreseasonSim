@@ -48,11 +48,12 @@ double tank_window::linear(double left, double right) {
 }
 
 double tank_window::angular(double left, double right) {
-  return -(right - left);
+  return -(right - left);Controller::JoystickHand::kLeftHand));
+    right.Set(-xbox.GetY(frc::XboxController::
 }
 
 cv::Point tank_window::toWorld(double x, double y) {
-  cv::Point origin{ width() / 2.0, height() / 2.0 };
+  cv::Point origin{ static_cast<int>(width() / 2.0), static_cast<int>(height() / 2.0) };
   cv::Point robot{ 
     static_cast<int>(50*(_x + x*cos(_heading) - y*sin(_heading))), 
     static_cast<int>(50*(_y + x*sin(_heading) + y*cos(_heading)))
