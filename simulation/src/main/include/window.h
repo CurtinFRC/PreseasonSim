@@ -14,6 +14,7 @@ public:
   ~window() {
     if (_running)
       stop();
+    std::cout << "[SIM] WARN! Destructed: " << _window_name << std::endl;
   }
 
   using clock = std::chrono::high_resolution_clock;
@@ -44,6 +45,14 @@ public:
     return _window_name;
   }
 
+  int width() const {
+    return _width;
+  }
+
+  int height() const {
+    return _height;
+  }
+
   virtual void on_open() {}
   virtual void render(cv::Mat &img) {};
   virtual void on_close() {}
@@ -56,7 +65,10 @@ public:
     if (_running) {
       cv::namedWindow(_window_name.c_str());
       auto now = clock::now();
-      _elapsed = std::chrono::duration_cast<std::chrono::duration<double>>(now - _last).count();
+      if (_elapsed == 0)
+        _elapsed = 1.0 / 45.0;
+      else
+        _elapsed = std::chrono::duration_cast<std::chrono::duration<double>>(now - _last).count();
 
       _image = cv::Mat::zeros(_image.size(), _image.type());
       render(_image);
@@ -70,6 +82,6 @@ private:
   int _width, _height;
   bool _running = false;
   cv::Mat _image;
-  double _elapsed;
+  double _elapsed = 0;
   std::chrono::time_point<clock> _last;
 };
