@@ -23,7 +23,7 @@ allprojects {
         }
         binaries {
             all {
-                if (buildType.name == 'debug' && org.gradle.internal.os.OperatingSystem.current().isLinux())
+                if (org.gradle.internal.os.OperatingSystem.current().isLinux())
                     linker.args << '-ldl' << '-rdynamic'
             }
         }

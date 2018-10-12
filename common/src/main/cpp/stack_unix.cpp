@@ -65,7 +65,7 @@ std::vector<std::string> stack::backtrace_get(int skip) {
 
       //			char syscom[256];
       //			sprintf(syscom,"addr2line -e %s %p 2> /dev/null", info.dli_fname, relative_ptr);	// Linux
-      //addr2line 			std::string exec_return = exec(syscom); 			if (!exec_return.empty()) {
+      // addr2line 			std::string exec_return = exec(syscom); 			if (!exec_return.empty()) {
       //				exec_return.erase(exec_return.length() - 1);	// Remove \n
       //				sprintf(buf, "\t\t%s", exec_return.c_str());
       //				vs.push_back(std::string(buf));
