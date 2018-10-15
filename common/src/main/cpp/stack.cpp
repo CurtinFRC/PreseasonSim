@@ -22,16 +22,3 @@ void stack::print_bytes(int depth) {
   std::cout << "========== END ==========" << std::endl;
   std::cout << std::endl;
 }
-
-void stack::print_calls() {
-  std::vector<std::string> bt = stack::backtrace_get(0);
-  std::cout << std::endl;
-  std::cout << "====== CALL STACK ======" << std::endl;
-
-  for (auto it = bt.begin(); it != bt.end(); it++) {
-    std::cout << *it << std::endl;
-  }
-
-  std::cout << "========== END ==========" << std::endl;
-  std::cout << std::endl;
-}

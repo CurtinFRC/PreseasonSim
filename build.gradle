@@ -1,7 +1,8 @@
 plugins {
-    id "edu.wpi.first.GradleRIO" version "2019.0.0-beta0-pre3" apply false
-    id "edu.wpi.first.GradleVsCode" version "0.4.1" apply false
+    id "edu.wpi.first.GradleRIO" version "2019.0.0-beta0-pre4" apply false
+    id "edu.wpi.first.GradleVsCode" version "0.6.1" apply false
 }
+
 allprojects {
     apply plugin: 'cpp'
     apply plugin: 'google-test-test-suite'
@@ -12,19 +13,10 @@ allprojects {
         libraries {
             all {
                 if (name == 'opencv_native' && org.gradle.internal.os.OperatingSystem.current().isLinux()) {
-                    // Use system opencv
+                    // Use system opencv (for gtk)
                     it.maven = null
                     it.file = project.file("/usr/local/lib")
                 }
-                if (name == 'googletest_native') {
-                    it.staticMatchers += "**/*libgoogletest.a".toString()
-                }
-            }
-        }
-        binaries {
-            all {
-                if (org.gradle.internal.os.OperatingSystem.current().isLinux())
-                    linker.args << '-ldl' << '-rdynamic'
             }
         }
     }
