@@ -1,6 +1,5 @@
 plugins {
-    id "edu.wpi.first.GradleRIO" version "2019.0.0-beta0-pre4" apply false
-    id "edu.wpi.first.GradleVsCode" version "0.6.1" apply false
+    id "edu.wpi.first.GradleRIO" version "2019.0.0-beta0-pre6" apply false
 }
 
 allprojects {
@@ -14,6 +13,7 @@ allprojects {
             all {
                 if (name == 'opencv_native' && org.gradle.internal.os.OperatingSystem.current().isLinux()) {
                     // Use system opencv (for gtk)
+                    it.sharedMatchers = ['**/*opencv*.so.*', '**/*opencv*.so']
                     it.maven = null
                     it.file = project.file("/usr/local/lib")
                 }
