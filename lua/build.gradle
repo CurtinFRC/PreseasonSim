@@ -1,0 +1,18 @@
+model {
+    components {
+        lua(NativeLibrarySpec) {
+            targetPlatform 'desktop'
+            targetPlatform 'roborio'
+
+            sources.cpp {
+                source {
+                    srcDir 'src/'
+                    exclude '**/luac.c'
+                }
+                exportedHeaders {
+                    srcDir 'src/'
+                }
+            }
+        }
+    }
+}
