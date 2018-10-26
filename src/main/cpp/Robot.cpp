@@ -5,19 +5,10 @@
 #include <iostream>
 
 void Robot::RobotInit() {
-  // Motor #0, 1m long, starts at -30 degrees
-  usage::pendulum(0, 1, -30);
+  usage::xbox(0);
 }
 
 void Robot::RobotPeriodic() {
-  // Our encoders have 1024 ticks per revolution, so this
-  // converts it to degrees. degrees_bound converts 0-360
-  // to -180 - 180
-  int encoder_value = encoder.Get();
-  double input = degrees_bound((double)encoder_value / 512.0 * 180.0);
-  // Call the Lua script to calculate the output
-  double output = script.calculate(input);
-
-  // Send the output to the motor
-  motor.Set(output);
+  double yspeed = -xbox.GetY(frc::XboxController::JoystickHand::kLeftHand);
+  motor.Set(yspeed);
 }

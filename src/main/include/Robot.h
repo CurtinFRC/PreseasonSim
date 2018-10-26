@@ -39,5 +39,6 @@ class Robot : public frc::TimedRobot {
   PendulumControlScript script;
 
   frc::Spark motor{0};
-  frc::Encoder encoder{0, 1};
+
+  frc::XboxController xbox{0};
 };
