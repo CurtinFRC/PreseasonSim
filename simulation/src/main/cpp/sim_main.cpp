@@ -16,10 +16,12 @@
 
 static std::vector<sim_motor_window> _motors;
 static std::vector<tank_window>      _tanks;
-static sim_xbox_window               _xbox;
+static std::vector<sim_xbox_window>  _xboxes;
 
 void all_windows(std::function<void(window &)> cb) {
-  cb(_xbox);
+  for (auto it = _xboxes.begin(); it != _xboxes.end(); ++it) {
+    cb(*it);
+  }
   for (auto it = _motors.begin(); it != _motors.end(); ++it) {
     cb(*it);
   }
@@ -34,8 +36,7 @@ void sim_main::run() {
 
   _motors.reserve(10);
   for (int i = 0; i < 10; i++) _motors.emplace_back(i);
-
-  _xbox.start();
+  for (int i = 0; i < 6; i++) _xboxes.emplace_back(i);
 
   usage::on_drivetrain([](int id) {
     std::pair<int, int> motors = usage::get_drivetrain(id);
@@ -43,6 +44,15 @@ void sim_main::run() {
               << std::endl;
     _tanks.emplace_back(motors.first, motors.second);
     _tanks.back().start();
+  });
+
+  usage::on_xbox([](int id, bool enable) {
+    std::cout << "[SIM] Xbox " << id << " {" << enable << "}" << std::endl;
+    if (enable) {
+      _xboxes[id].start();
+    } else {
+      _xboxes[id].stop();
+    }
   });
 
   std::cout << "[SIM] Starting UI Thread..." << std::endl;

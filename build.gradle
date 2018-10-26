@@ -19,6 +19,13 @@ allprojects {
                 }
             }
         }
+        binaries {
+            all {
+                // Build debug only
+                if (buildType.name == 'release')
+                    buildable = false;
+            }
+        }
     }
 }
 
@@ -62,9 +69,9 @@ model {
             binaries.all {
                 if (targetPlatform == platforms.desktop) {
                     cppCompiler.define 'SIMULATION'
-                    lib project: ':simulation', library: 'preseasonSimulation', linkage: 'static'
+                    lib project: ':simulation', library: 'preseasonSimulation', linkage: 'shared'
                 }
-                lib project: ':common', library: 'preseasonCommon', linkage: 'static'
+                lib project: ':common', library: 'preseasonCommon', linkage: 'shared'
             }
 
             useLibrary(it, "wpilib")
@@ -83,13 +90,9 @@ model {
 
             binaries.all {
                 // CHANGE ME:
-                cppCompiler.define 'SESSION_2_ACT_3'
+                // cppCompiler.define 'SESSION_2_ACT_3'
 
-                // Some of our tests will be using debugging information.
-                if (buildType.name == 'release')
-                    buildable = false;
-
-                lib project: ':common', library: 'preseasonCommon', linkage: 'static'
+                lib project: ':common', library: 'preseasonCommon', linkage: 'shared'
             }
 
             useLibrary(it, "wpilib", "googletest", "googletest_binaries")

@@ -13,12 +13,7 @@ model {
             }
 
             binaries.all {
-                lib project: ':common', library: 'preseasonCommon', linkage: 'static'
-            }
-
-            // No need to build shared libraries that we never use.
-            binaries.withType(SharedLibraryBinarySpec) {
-                buildable = false
+                lib project: ':common', library: 'preseasonCommon', linkage: 'shared'
             }
 
             useLibrary(it, "hal", "opencv")

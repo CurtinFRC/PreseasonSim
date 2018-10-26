@@ -48,7 +48,7 @@ void sim_xbox_window::render(cv::Mat &img) {
 
   cv::putText(img, "Xbox Controller", cv::Point{10, 30}, CV_FONT_HERSHEY_SIMPLEX, 1.0,
               cv::Scalar{127, 127, 127}, 1.5);
-  HALSIM_SetJoystickAxes(0, &axes);
+  HALSIM_SetJoystickAxes(port, &axes);
 }
 
 bool sim_xbox_window::inside(cv::Point center, double radius, int x, int y, double *off_x, double *off_y) {
