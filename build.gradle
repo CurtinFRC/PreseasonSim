@@ -21,9 +21,12 @@ allprojects {
         }
         binaries {
             all {
-                // Build debug only
-                if (buildType.name == 'release')
-                    buildable = false;
+                // Build release only. This is to account for opencv on windows.
+                if (buildType.name == 'debug')
+                    buildable = false
+            }
+            withType(SharedLibraryBinarySpec) {
+                it.buildable = false
             }
         }
     }
@@ -69,11 +72,11 @@ model {
             binaries.all {
                 if (targetPlatform == platforms.desktop) {
                     cppCompiler.define 'SIMULATION'
-                    lib project: ':simulation', library: 'preseasonSimulation', linkage: 'shared'
+                    lib project: ':simulation', library: 'preseasonSimulation', linkage: 'static'
                 }
-                lib project: ':common', library: 'preseasonCommon', linkage: 'shared'
-                lib project: ':lua', library: 'minilua', linkage: 'shared'
-                lib project: ':lua', library: 'lua', linkage: 'shared'
+                lib project: ':common', library: 'preseasonCommon', linkage: 'static'
+                lib project: ':lua', library: 'minilua', linkage: 'static'
+                lib project: ':lua', library: 'lua', linkage: 'static'
             }
 
             useLibrary(it, "wpilib")
@@ -94,7 +97,9 @@ model {
                 // CHANGE ME:
                 // cppCompiler.define 'SESSION_2_ACT_3'
 
-                lib project: ':common', library: 'preseasonCommon', linkage: 'shared'
+                lib project: ':common', library: 'preseasonCommon', linkage: 'static'
+                lib project: ':lua', library: 'minilua', linkage: 'static'
+                lib project: ':lua', library: 'lua', linkage: 'static'
             }
 
             useLibrary(it, "wpilib", "googletest", "googletest_binaries")
@@ -103,7 +108,7 @@ model {
 }
 
 task sim();
-sim.dependsOn 'simulateFrcUserProgramDesktopDebugExecutable'
+sim.dependsOn 'simulateFrcUserProgramDesktopReleaseExecutable'
 
 wpi.maven {
     useMirror("AU")

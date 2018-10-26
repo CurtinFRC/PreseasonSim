@@ -32,7 +32,7 @@ model {
                     srcDir 'minilua_src/'
                     include '**/*.hpp'
                 }
-                lib project: ':lua', library: 'lua', linkage: 'shared'
+                lib project: ':lua', library: 'lua', linkage: 'static'
             }
         }
     }

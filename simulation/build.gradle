@@ -13,7 +13,7 @@ model {
             }
 
             binaries.all {
-                lib project: ':common', library: 'preseasonCommon', linkage: 'shared'
+                lib project: ':common', library: 'preseasonCommon', linkage: 'static'
             }
 
             useLibrary(it, "hal", "opencv")

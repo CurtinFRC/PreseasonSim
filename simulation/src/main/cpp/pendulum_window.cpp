@@ -30,15 +30,15 @@ void pendulum_window::render(cv::Mat &img) {
 
 void pendulum_window::draw_pendulum(cv::Mat &img) {
   double    pixel_length = _pendulum_length * _kScale;
-  cv::Point tip = _origin + cv::Point{pixel_length * sin(_theta), -pixel_length * cos(_theta)};
-  cv::Point tip_ideal = _origin + cv::Point{ 0, -pixel_length };
+  cv::Point tip = _origin + cv::Point{(int)(pixel_length * sin(_theta)), (int)(-pixel_length * cos(_theta))};
+  cv::Point tip_ideal = _origin + cv::Point{ 0, (int)(-pixel_length) };
 
   cv::line(img, _origin, tip_ideal, cv::Scalar{120, 120, 200}, 1);
   cv::line(img, _origin, tip, cv::Scalar{0, 255, 0}, 4);
 }
 
 void pendulum_window::draw_base(cv::Mat &img) {
-  cv::Point off{0.25 * _kScale, 0};
+  cv::Point off{(int)(0.25 * _kScale), 0};
 
   cv::line(img, _origin - off, _origin + off, cv::Scalar{120, 120, 120}, 4);
 }
