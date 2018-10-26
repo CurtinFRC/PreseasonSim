@@ -10,4 +10,7 @@ std::pair<int, int> get_drivetrain(int idx);
 
 void on_xbox(std::function<void(int, bool)> callback);
 void xbox(int port=0, bool enable=true);
+
+void on_pendulum(std::function<void(int,double,double)> callback);
+void pendulum(int port, double len=1, double angle=0);
 }  // namespace usage

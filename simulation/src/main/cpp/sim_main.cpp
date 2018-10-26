@@ -2,6 +2,7 @@
 #include "motor_window.h"
 #include "tank_window.h"
 #include "xbox_window.h"
+#include "pendulum_window.h"
 
 #include "usage.h"
 
@@ -17,17 +18,15 @@
 static std::vector<sim_motor_window> _motors;
 static std::vector<tank_window>      _tanks;
 static std::vector<sim_xbox_window>  _xboxes;
+static std::vector<pendulum_window>  _pendulums;
+
+#define ALL_UPD8(list) for (auto it = list.begin(); it != list.end(); ++it) cb(*it);
 
 void all_windows(std::function<void(window &)> cb) {
-  for (auto it = _xboxes.begin(); it != _xboxes.end(); ++it) {
-    cb(*it);
-  }
-  for (auto it = _motors.begin(); it != _motors.end(); ++it) {
-    cb(*it);
-  }
-  for (auto it = _tanks.begin(); it != _tanks.end(); ++it) {
-    cb(*it);
-  }
+  ALL_UPD8(_xboxes);
+  ALL_UPD8(_motors);
+  ALL_UPD8(_tanks);
+  ALL_UPD8(_pendulums);
 }
 
 void sim_main::run() {
@@ -36,7 +35,7 @@ void sim_main::run() {
 
   _motors.reserve(10);
   for (int i = 0; i < 10; i++) _motors.emplace_back(i);
-  for (int i = 0; i < 6; i++) _xboxes.emplace_back(i);
+  for (int i = 0; i < 6; i++)  _xboxes.emplace_back(i);
 
   usage::on_drivetrain([](int id) {
     std::pair<int, int> motors = usage::get_drivetrain(id);
@@ -53,6 +52,12 @@ void sim_main::run() {
     } else {
       _xboxes[id].stop();
     }
+  });
+
+  usage::on_pendulum([](int id, double len, double angle) {
+    std::cout << "[SIM] Pendulum " << id << std::endl;
+    _pendulums.emplace_back(id, len, angle * 3.141593 / 180.0);
+    _pendulums.back().start();
   });
 
   std::cout << "[SIM] Starting UI Thread..." << std::endl;

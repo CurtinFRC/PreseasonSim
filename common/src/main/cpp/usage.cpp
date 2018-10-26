@@ -34,3 +34,15 @@ void usage::xbox(int port, bool enable) {
 void usage::on_xbox(std::function<void(int,bool)> cb) {
   _xbox_callbacks.push_back(cb);
 }
+
+// PENDULUM
+
+static std::vector<std::function<void(int,double,double)>> _pendulum_callbacks;
+
+void usage::pendulum(int port, double len, double angle) {
+  std::for_each(_pendulum_callbacks.begin(), _pendulum_callbacks.end(), [&](auto it) { it(port, len, angle); });
+}
+
+void usage::on_pendulum(std::function<void(int,double,double)> cb) {
+  _pendulum_callbacks.push_back(cb);
+}

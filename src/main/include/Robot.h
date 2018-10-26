@@ -9,9 +9,11 @@
 
 #include <string>
 
-#include <frc/TimedRobot.h>
 #include <frc/Spark.h>
+#include <frc/TimedRobot.h>
 #include <frc/XboxController.h>
+#include <frc/Encoder.h>
+#include <frc/Timer.h>
 #include <frc/drive/DifferentialDrive.h>
 
 #include <usage.h>
@@ -22,5 +24,20 @@ class Robot : public frc::TimedRobot {
  public:
   void RobotInit() override;
   void RobotPeriodic() override;
+
+  double get_encoder_value(frc::Encoder &enc) {
+    return static_cast<double>(enc.Get());
+  }
+
+  double degrees_bound(double deg) {
+    return std::fmod(deg + 180, 360) - 180;
+  }
+
+  double get_time() {
+    return frc::Timer::GetFPGATimestamp();
+  }
+
  private:
+  frc::Spark motor{0};
+  frc::Encoder encoder{0, 1};
 };

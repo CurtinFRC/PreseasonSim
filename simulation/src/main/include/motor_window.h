@@ -1,6 +1,7 @@
 #pragma once
 
 #include "window.h"
+#include "motor_model.h"
 
 class sim_motor_window : public window {
  public:
@@ -16,5 +17,6 @@ class sim_motor_window : public window {
  private:
   int     pwm;
   double  rots;
+
   int32_t _cbid;
 };
