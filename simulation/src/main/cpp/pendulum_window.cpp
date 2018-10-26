@@ -15,8 +15,8 @@ void pendulum_window::render(cv::Mat &img) {
 
   if (_origin.x > width() || _origin.x < 0)
     reset();
-  else if (_theta > 3.1415 / 2.0 || _theta < -3.1415 / 2.0)
-    reset();
+  // else if (_theta > 3.1415 / 2.0 || _theta < -3.1415 / 2.0)
+  //   reset();
   else {
     draw_graph(img);
     draw_pendulum(img);
