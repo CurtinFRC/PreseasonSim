@@ -107,18 +107,18 @@ void MiniLua::PushNumber(double val) {
   lua_pushnumber(this->Lua, val);
 }
 
-void MiniLua::Call(const char *name, int nret, int nargs, ...) {
-  va_list args;
-  va_start(args, nret);
+void MiniLua::Call(const char *name, int nret, std::vector<double> args) {
+  int nargs = args.size();
 
   lua_getglobal(this->Lua, name);
   for (int i = 0; i < nargs; i++) {
-    double arg = va_arg(args, double);
-    lua_pushnumber(this->Lua, arg);
+    lua_pushnumber(this->Lua, args[i]);
   }
   
-  if (lua_pcall(this->Lua, nargs, nret, 0) != 0) {
-    std::cout << "ERROR: running function: " << lua_tostring(this->Lua, -1) << std::endl;
+  int ret = lua_pcall(this->Lua, nargs, nret, 0);
+  if (ret != 0) {
+    std::cout << "ERROR: running function (" << ret << "): " << lua_tostring(this->Lua, -1) << std::endl;
+    lua_pop(this->Lua, 1);
   }
 }
 

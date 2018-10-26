@@ -25,6 +25,7 @@
 
 #include <lua.hpp>
 #include <string>
+#include <vector>
 
 class MiniLua {
 
@@ -50,7 +51,7 @@ public:
   bool Get(const char *name, bool &result);
 
   void PushNumber(double val);
-  void Call(const char *name, int nret, int nargs, ...);
+  void Call(const char *name, int nret, std::vector<double> args);
   double PopNumber();
 
   /**

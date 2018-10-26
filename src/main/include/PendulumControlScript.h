@@ -3,6 +3,8 @@
 #include "MiniLua.hpp"
 #include <frc/Timer.h>
 #include <usage.h>
+#include <iostream>
+#include <vector>
 
 class PendulumControlScript {
 public:
@@ -20,7 +22,7 @@ public:
   }
 
   void setup() {
-    _lua.Call("setup", 0, 0);
+    _lua.Call("setup", 0, std::vector<double>{ });
     _lasttime = frc::Timer::GetFPGATimestamp();
   }
 
@@ -28,7 +30,7 @@ public:
     double time = frc::Timer::GetFPGATimestamp();
     double dt = time - _lasttime;
     
-    _lua.Call("calculate", 1, 2, dt, input);
+    _lua.Call("calculate", 1, std::vector<double>{dt, input});
 
     _lasttime = time;
     return _lua.PopNumber();

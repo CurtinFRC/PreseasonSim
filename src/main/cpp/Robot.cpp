@@ -14,7 +14,7 @@ void Robot::RobotPeriodic() {
   // Our encoders have 1024 ticks per revolution, so this
   // converts it to degrees. degrees_bound converts 0-360
   // to -180 - 180
-  double input = degrees_bound(encoder_value / 512.0 * 180.0);
+  double input = degrees_bound((double)encoder_value / 512.0 * 180.0);
   // Call the Lua script to calculate the output
   double output = script.calculate(input);
 
