@@ -4,6 +4,8 @@
 #include "mockdata/PWMData.h"
 #include "mockdata/EncoderData.h"
 
+#include <usage.h>
+
 void pendulum_window::render(cv::Mat &img) {
   // double pwm_speed = HALSIM_GetPWMSpeed(_motorPort);
   position_update();
@@ -88,4 +90,6 @@ void pendulum_window::reset() {
   _acceleration = 0;
   _time = 0;
   _graph_mat = cv::Mat::zeros(height(), width(), CV_8UC3);
+
+  usage::pendulum_reset();
 }

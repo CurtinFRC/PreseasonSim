@@ -38,11 +38,20 @@ void usage::on_xbox(std::function<void(int,bool)> cb) {
 // PENDULUM
 
 static std::vector<std::function<void(int,double,double)>> _pendulum_callbacks;
+static std::vector<std::function<void()>> _pendulum_reset_callbacks;
 
 void usage::pendulum(int port, double len, double angle) {
   std::for_each(_pendulum_callbacks.begin(), _pendulum_callbacks.end(), [&](auto it) { it(port, len, angle); });
 }
 
+void usage::pendulum_reset() {
+  std::for_each(_pendulum_reset_callbacks.begin(), _pendulum_reset_callbacks.end(), [&](auto it) { it(); });
+}
+
 void usage::on_pendulum(std::function<void(int,double,double)> cb) {
   _pendulum_callbacks.push_back(cb);
+}
+
+void usage::on_pendulum_reset(std::function<void()> cb) {
+  _pendulum_reset_callbacks.push_back(cb);
 }

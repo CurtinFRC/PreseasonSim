@@ -17,6 +17,7 @@
 #include <frc/drive/DifferentialDrive.h>
 
 #include <usage.h>
+#include "PendulumControlScript.h"
 
 #include <memory>
 
@@ -24,10 +25,6 @@ class Robot : public frc::TimedRobot {
  public:
   void RobotInit() override;
   void RobotPeriodic() override;
-
-  double get_encoder_value(frc::Encoder &enc) {
-    return static_cast<double>(enc.Get());
-  }
 
   double degrees_bound(double deg) {
     return std::fmod(deg + 180, 360) - 180;
@@ -38,6 +35,9 @@ class Robot : public frc::TimedRobot {
   }
 
  private:
+  // Don't touch this line!
+  PendulumControlScript script;
+
   frc::Spark motor{0};
   frc::Encoder encoder{0, 1};
 };

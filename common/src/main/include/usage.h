@@ -12,5 +12,7 @@ void on_xbox(std::function<void(int, bool)> callback);
 void xbox(int port=0, bool enable=true);
 
 void on_pendulum(std::function<void(int,double,double)> callback);
+void on_pendulum_reset(std::function<void()> callback);
 void pendulum(int port, double len=1, double angle=0);
+void pendulum_reset();
 }  // namespace usage

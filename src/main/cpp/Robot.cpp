@@ -4,38 +4,20 @@
 
 #include <iostream>
 
-double _lasttime = 0;
-double _lasterror = 0;
-double _sum = 0;
-
 void Robot::RobotInit() {
-  usage::xbox(0);
+  // Motor #0, 1m long, starts at -30 degrees
   usage::pendulum(0, 1, -30);
-
-  _lasttime = get_time();
 }
 
 void Robot::RobotPeriodic() {
-  double goal = 0;
-  double actual = degrees_bound(get_encoder_value(encoder) / 512 * 180);
+  int encoder_value = encoder.Get();
+  // Our encoders have 1024 ticks per revolution, so this
+  // converts it to degrees. degrees_bound converts 0-360
+  // to -180 - 180
+  double input = degrees_bound(encoder_value / 512.0 * 180.0);
+  // Call the Lua script to calculate the output
+  double output = script.calculate(input);
 
-  double time = get_time();
-  double dt = time - _lasttime;
-
-  double kP = -0.2;
-  double kI = 0.001;
-  double kD = -0.005;
-
-  double error = goal - actual;
-  double derror = dt > 0.01 ? (error - _lasterror) / dt : 0;
-  _sum += error * dt;
-
-  double output = kP * error;
-  output += kI * _sum;
-  output += kD * derror;
-
+  // Send the output to the motor
   motor.Set(output);
-
-  _lasterror = error;
-  _lasttime = time;
 }

@@ -1,17 +1,38 @@
+apply plugin: 'c'
+
 model {
     components {
         lua(NativeLibrarySpec) {
             targetPlatform 'desktop'
             targetPlatform 'roborio'
 
-            sources.cpp {
+            sources.c {
                 source {
                     srcDir 'src/'
+                    include '**/*.c'
                     exclude '**/luac.c'
                 }
                 exportedHeaders {
                     srcDir 'src/'
+                    include '**/*.h', '**/*.hpp'
                 }
+            }
+        }
+
+        minilua(NativeLibrarySpec) {
+            targetPlatform 'desktop'
+            targetPlatform 'roborio'
+
+            sources.cpp {
+                source {
+                    srcDir 'minilua_src/'
+                    include '**/*.cpp'
+                }
+                exportedHeaders {
+                    srcDir 'minilua_src/'
+                    include '**/*.hpp'
+                }
+                lib project: ':lua', library: 'lua', linkage: 'shared'
             }
         }
     }

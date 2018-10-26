@@ -72,6 +72,8 @@ model {
                     lib project: ':simulation', library: 'preseasonSimulation', linkage: 'shared'
                 }
                 lib project: ':common', library: 'preseasonCommon', linkage: 'shared'
+                lib project: ':lua', library: 'minilua', linkage: 'shared'
+                lib project: ':lua', library: 'lua', linkage: 'shared'
             }
 
             useLibrary(it, "wpilib")
