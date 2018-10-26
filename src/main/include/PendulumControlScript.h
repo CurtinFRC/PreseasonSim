@@ -5,6 +5,7 @@
 #include <usage.h>
 #include <iostream>
 #include <vector>
+#include <mutex>
 
 class PendulumControlScript {
 public:
@@ -16,9 +17,11 @@ public:
   }
 
   void reload() {
+    mtx.lock();
     _lua.Close();
-    _lua.Load("../../../../../../src/main/lua/control.lua");
+    _lua.Load("../../../../../../src/main/lua/pendulum.lua");
     setup();
+    mtx.unlock();
   }
 
   void setup() {
@@ -30,13 +33,17 @@ public:
     double time = frc::Timer::GetFPGATimestamp();
     double dt = time - _lasttime;
     
-    _lua.Call("calculate", 1, std::vector<double>{dt, input});
+    mtx.lock();
+    _lua.Call("calculate", 1, std::vector<double>{dt > 0.01 ? dt : 0.01, input});
+    double output = _lua.PopNumber();
+    mtx.unlock();
 
     _lasttime = time;
-    return _lua.PopNumber();
+    return output;
   }
 
 private:
   MiniLua _lua;
   double _lasttime = 0;
+  std::mutex mtx;
 };
