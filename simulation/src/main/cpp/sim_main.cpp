@@ -34,6 +34,7 @@ void sim_main::run() {
   HAL_Initialize(500, 0);
 
   _motors.reserve(10);
+  _xboxes.reserve(6);
   for (int i = 0; i < 10; i++) _motors.emplace_back(i);
   for (int i = 0; i < 6; i++)  _xboxes.emplace_back(i);
 
