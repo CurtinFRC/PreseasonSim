@@ -18,6 +18,7 @@
 
 #include <usage.h>
 #include "PendulumControlScript.h"
+#include "robot_control.h"
 
 #include <memory>
 
@@ -25,6 +26,7 @@ class Robot : public frc::TimedRobot {
  public:
   void RobotInit() override;
   void RobotPeriodic() override;
+  void Drive(double left, double right);
 
   double degrees_bound(double deg) {
     return std::fmod(deg + 180, 360) - 180;
@@ -38,7 +40,9 @@ class Robot : public frc::TimedRobot {
   // Don't touch this line!
   PendulumControlScript script;
 
-  frc::Spark motor{0};
+  frc::Spark _left{0}, _right{1};
 
-  frc::XboxController xbox{0};
+  robot_control _control;
+
+  frc::XboxController _xbox{0};
 };
